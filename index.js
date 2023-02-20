@@ -15,5 +15,52 @@ const maxPage = 1;
 const page = 1;
 const searchQuery = "";
 
-const card = createCharacterCard();
-cardContainer.append(card);
+let characters = [
+  // {
+  //   name: "rick",
+  //   image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+  //   status: "alive",
+  //   occurrences: "51",
+  //   type: "human",
+  // },
+  // {
+  //   name: "morty",
+  //   image: "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
+  //   status: "dead",
+  //   occurrences: "51",
+  //   type: "animal",
+  // },
+];
+
+async function fetchCharacters() {
+  try {
+    const response = await fetch("https://rickandmortyapi.com/api/character/");
+    if (response.ok) {
+      const data = await response.json();
+
+      // fill characters array with data from API
+
+      characters = data.results.map((character) => {
+        return {
+          name: character.name,
+          image: character.image,
+          status: character.status,
+          type: character.type,
+          occurrences: character.episode.length,
+        };
+      });
+
+      characters.forEach((character) => {
+        const card = createCharacterCard(character);
+        cardContainer.append(card);
+      });
+      console.log(data);
+      return data;
+    } else {
+      console.log("There is an error");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+fetchCharacters();
