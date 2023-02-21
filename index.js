@@ -71,10 +71,10 @@ async function fetchCharacters() {
 fetchCharacters();
 
 prevButton.addEventListener("click", () => {
-  page = page - 1;
-
-  //page >= 1;
-  fetchCharacters();
+  if (page > 1) {
+    page = page - 1;
+    fetchCharacters();
+  }
 });
 
 nextButton.addEventListener("click", () => {
